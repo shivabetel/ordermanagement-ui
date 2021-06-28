@@ -1,8 +1,12 @@
 export const styles = {
-    mainContainer: {
-        maxWidth: '75%',
-        width: '75%',
-        margin: '1em auto',
-        height: 'calc( 100vh - 60px)'
+    layoutCon: {
+        maxWidth: '85%',
+        width: '85%',
+        margin: '0 auto',
+        minHeight: '100vh',
+        padding: '0 1em',
+        background: '#fff'
+    },
+    mainCon: {
     }
 }

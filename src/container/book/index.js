@@ -1,5 +1,6 @@
 import React from 'react';
 import Booking from '../../components/book';
+import PrivateRoute from '../../components/common/hoc/private-route';
 
 
 const BookContainer = props => {
@@ -14,4 +15,4 @@ const BookContainer = props => {
 }
 
 
-export default BookContainer;
+export default PrivateRoute(BookContainer);

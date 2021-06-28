@@ -7,10 +7,10 @@ const Layout = props => {
 
 
     return(
-        <div>
+        <div css={styles.layoutCon}>
            <Header/>
 
-            <main css={styles.mainContainer}>
+            <main css={styles.mainCon}>
                 {props.children}
             </main>
             <footer/>

@@ -2,10 +2,15 @@ import axios from '../libs/axios'
 
 const apiTimeout = 500000
 
+const defaultHeaders = () => (
+    window && {
+    'Authorization': "Bearer "+ window.sessionStorage.getItem("authToken")
+    }
+)
+
 const defaultApiOptions = (options = {} ) => {
     return Object.assign({
         //withCredentials: true
-        //headers: ''
         timeout: apiTimeout,
         validateStatus: (status) => {
             return status < 400
@@ -29,12 +34,18 @@ const buildError = (errorObj = {}) => {
         responseCode: 400,
         responseMessage: 'Something went wrong'
     }
-    const { response = {} } = errorObj
-    let { data = {} } = response;
-    data = JSON.parse(data);
-    const returnError = Object.assign({}, defautError, data)
-    console.log("returnError",returnError)
-    return returnError
+    const {response = {} } = errorObj
+    let {  status = '', data = {} } = response;
+    data = data && JSON.parse(data);
+    switch(status) {
+        case 403: {
+            const error = Object.assign({}, defautError, {responseCode: 403, responseMessage: 'Authentication failed'})
+            return error
+        }
+             
+        default:
+           return Object.assign({}, defautError, data)    
+    }
 }
 
 
@@ -44,6 +55,7 @@ class HttpLib {
 
     post = function (apiEndpoint, options) {
         options.headers = Object.assign({}, (options.headers || {}), {
+            ...defaultHeaders(),
             'Content-Type': 'application/json'
         })
        return axios({
@@ -55,18 +67,36 @@ class HttpLib {
             return new Promise((resolve) => resolve(dataToReturn(response)))
         })
         .catch((err) => {
-            console.log("********error",err)
             return new Promise((resolve, reject) => reject(buildError(err)))
         })
     }
 
     get = function(apiEndpoint, options) {
         options.headers = Object.assign({}, (options.headers || {}), {
+            ...defaultHeaders(),
             'Content-Type': 'application/json'
         })
         return axios({
             url: apiEndpoint,
             method: 'GET',
+            ...defaultApiOptions(options)
+        })
+        .then(response => {
+            return new Promise(resolve => resolve(dataToReturn(response)))
+        })
+        .catch((e) => {
+            return new Promise((resolve, reject) => reject(buildError(e)))
+        })
+    }
+
+    put = function(apiEndpoint, options) {
+        options.headers = Object.assign({}, (options.headers || {}), {
+            ...defaultHeaders(),
+            'Content-Type': 'application/json'
+        })
+        return axios({
+            url: apiEndpoint,
+            method: 'PUT',
             ...defaultApiOptions(options)
         })
         .then(response => {

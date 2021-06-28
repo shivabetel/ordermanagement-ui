@@ -14,8 +14,7 @@ const initialValues = {
     emailId: '',
     firstName: '',
     lastName: '',
-    password: '',
-    confirmPassword: ''
+    password: ''
 }
 
 let debouncedEvent = null
@@ -38,12 +37,6 @@ const validate = (formValues) => {
     }
     if (!formValues['password']) {
         errorObj['password'] = 'Required'
-    }
-    if (!formValues['confirmPassword']) {
-        errorObj['confirmPassword'] = 'Required'
-    }
-    if (formValues['password'] && formValues['confirmPassword'] && formValues['confirmPassword'] !== formValues['password']) {
-        errorObj['confirmPassword'] = 'Password and Confirm Password are not matching'
     }
 
     return errorObj
@@ -75,6 +68,8 @@ const Registration = (props) => {
 
             } catch (e) {
                 console.log("validateEmail(e.target.value)", e)
+                setLoading(false)
+
             }
         })
     }, [])
@@ -140,17 +135,7 @@ const Registration = (props) => {
                                     onBlur={handleBlur}
                                     error={Boolean(touched['password']) && errors['password']}
                                 />
-                            </div>
-                            <div css={styles.inputCon}>
-                                <Input label={'Confirm Password'}
-                                    type={"password"}
-                                    name={'confirmPassword'}
-                                    value={values['confirmPassword']}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    error={Boolean(touched['confirmPassword']) && errors['confirmPassword']}
-                                />
-                            </div>
+                            </div>                            
                             <div>
                                 <Button type="submit"
                                     isLoading={isSubmitting} />

@@ -40,7 +40,29 @@ const checkAvailablity = async (emailId = '') => {
   }
 }
 
+const createShippingAddress = async (inputObj = {}) => {
+    try {
+        let response = {}
+        let options = {
+            pathVars: {
+              customerId: inputObj['customerId']
+            },
+            data: {
+                ...inputObj
+            }
+        }
+        const httpLib = new Httplib();
+        const apiPath = ApiRegistry.getPath("shippingAddress", options);
+        response = await httpLib.post(apiPath, options)
+        return new Promise(resolve => resolve(response))//returning new Promise so that i can do some transformation stuff here
+  
+    }catch(err) {
+      return new Promise((resolve, reject) => reject(err))
+    }
+  }
+
 export {
     register,
-    checkAvailablity
+    checkAvailablity,
+    createShippingAddress
 }

@@ -4,7 +4,10 @@ import Layout from '../src/components/layout';
 import withRedux from 'next-redux-wrapper'
 import createStore from '../src/store/create-store'
 import { Provider } from 'react-redux'
-import Dialog from '../src/components/common/dialog';
+import DialogComponent from '../src/components/common/dialog_materialui'
+import { CssBaseline } from '@material-ui/core';
+import baseStyles from '../src/styles/base'
+import Toast from '../src/components/common/toast';
 
 
 let handleDialogOk = null
@@ -52,13 +55,17 @@ class PlayoBooking extends App {
 
         return (
             <Provider store={store}>
+                <CssBaseline/>
                 <Layout>
+                    <Toast/>
                     <Component {...this.props}
                                openErrorDialog={this.openErrorDialog}/>
-                    { this.state.dialogState.open ? <Dialog type={this.state.dialogState.type}
-                                                            title={this.state.dialogState.title}
-                                                             handleDialogOk={this.closeDialog}
-                                                             message={this.state.dialogState.message}/> : <></>}
+                    <DialogComponent type={this.state.dialogState.type}
+                                     open={this.state.dialogState.open}
+                                     title={this.state.dialogState.title}
+                                     handleDialogOk={this.closeDialog}
+                                     handleClose={this.closeDialog}
+                                     message={this.state.dialogState.message}/>
                 </Layout>
             </Provider>
         )

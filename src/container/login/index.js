@@ -8,7 +8,7 @@ class LoginCon extends React.Component {
     render(){
         return (
             <div>
-                <Login/>
+                <Login openErrorDialog={this.props.openErrorDialog}/>
             </div>
         )
     }

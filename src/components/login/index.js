@@ -1,13 +1,17 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
-import Input from '../common/input';
+import InputComp from '../common/input';
 import { styles } from './style'
 import Button from '../common/button';
 import { validateEmail } from '../../utils/validations'
 import Form from '../common/form';
-import {srLogin} from '../../sources/login'
+import { Router } from '../../../routes'
+import { authenticate } from '../../actions/login';
+import { connect } from 'react-redux';
+import ComponentStatesHandler from '../common/hoc/component-states-handler';
+import { useEffect } from 'react';
 
-console.log("srLogin",srLogin)
+
 
 
 const initialValues = {
@@ -32,67 +36,88 @@ const validate = (formValues) => {
     return errorObj
 }
 
-const Login = () => {
+const Login = (props) => {
 
-    const formSubmit = async (values, {setSubmitting}) => {
-        try{
-          setSubmitting(true)
-          let response = await srLogin({
-              userName: values['emailId'],
-              password: values['password']
-          })
-          console.log("response",response);
-          setSubmitting(false)
-        }catch(e){
-            console.log("e",e)
-        }
-        
-        
+    const { authenticate, openErrorDialog, apiResponseCode } = props;
+    
 
+    useEffect(() => {
+        const { data } = props;
+        data && window.sessionStorage.setItem("authToken", data['authToken'])
+        apiResponseCode && !apiFailurePredicate() && Router.pushRoute("/products")
+        
+    }, [apiResponseCode])
+
+    const showErrorDialog = () => {
+        const { errorObj: { responseMessage } } = props
+        openErrorDialog({ message: responseMessage });
+    }
+    const apiFailurePredicate = () => apiResponseCode === 'failure'
+
+    const formSubmit = async (values, { setSubmitting }) => {
+            setSubmitting(true)
+            await authenticate({
+                userName: values['emailId'],
+                password: values['password']
+            })
+
+            setSubmitting(false)
     }
 
     return (
-        <Form initialValues={initialValues}
-              onSubmit={formSubmit}
-              validate={values => validate(values)}>
-            {
-                ({ values, handleChange , handleBlur, touched, errors , isSubmitting}) => {
-                    return (
-                        <div css={styles.formCon}>
-                            <div css={styles.header}>
-                                <h2>{'Sign IN'}</h2>
+        <ComponentStatesHandler isError={apiFailurePredicate()}
+                                showError={true}
+                                openErrorDialog={showErrorDialog}>
+            <Form initialValues={initialValues}
+                onSubmit={formSubmit}
+                validate={values => validate(values)}>
+                {
+                    ({ values, handleChange, handleBlur, touched, errors, isSubmitting }) => {
+                        return (
+                            <div css={styles.formCon}>
+                                <div css={styles.header}>
+                                    <h2>{'Sign IN'}</h2>
+                                </div>
+                                <div css={styles.inputCon}>
+                                    <InputComp label={'Email ID'}
+                                        type={"email"}
+                                        name={'emailId'}
+                                        value={values['emailId']}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        error={Boolean(touched['emailId']) && errors['emailId']}
+                                    />
+                                </div>
+                                <div css={styles.inputCon}>
+                                    <InputComp label={'Password'}
+                                        type={"password"}
+                                        name={'password'}
+                                        value={values['password']}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        error={Boolean(touched['password']) && errors['password']}
+                                    />
+                                </div>
+                                <div>
+                                    <Button type="submit"
+                                        isLoading={isSubmitting} />
+                                </div>
                             </div>
-                            <div css={styles.inputCon}>
-                                <Input label={'Email ID'}
-                                    type={"email"}
-                                    name={'emailId'}
-                                    value={values['emailId']}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    error={Boolean(touched['emailId']) && errors['emailId']}
-                                />
-                            </div>
-                            <div css={styles.inputCon}>
-                                <Input label={'Password'}
-                                    type={"password"}
-                                    name={'password'}
-                                    value={values['password']}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    error={Boolean(touched['password']) && errors['password']}
-                                />
-                            </div>
-                            <div>
-                                <Button type="submit" 
-                                        isLoading={false}/>
-                            </div>
-                        </div>
-                    )
+                        )
+                    }
                 }
-            }
-        </Form>
+            </Form>
+        </ComponentStatesHandler>
+
     )
 
 }
 
-export default Login
+const mapStateToProps = (state) => {
+    const { login } = state
+    return login;
+}
+
+export default connect(mapStateToProps, {
+    authenticate
+})(Login)

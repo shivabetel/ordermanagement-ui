@@ -8,9 +8,9 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 const Button = props => {
 
 
-    const { type = 'button', label = 'Submit', buttonClickHandler, isLoading = false } = props
+    const { type = 'button', label = 'Submit', buttonClickHandler, isLoading = false, buttonStyle } = props
     return (
-        <button css={styles.button} 
+        <button css={buttonStyle || styles.button} 
                 type={type}
                 onClick={buttonClickHandler}>
             <span css={styles.loader}>{isLoading ? <CircularProgress size={12}

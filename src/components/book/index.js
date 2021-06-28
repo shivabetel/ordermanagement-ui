@@ -4,7 +4,7 @@ import { styles } from './style'
 import InputDate from '../input-date';
 import Duration from '../duration';
 import Courts from './courts';
-import Button from '../button';
+import Button from '../common/button';
 
 
 

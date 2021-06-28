@@ -2,8 +2,8 @@ import constants from '../../../network/constants'
 
 const apiList = {
     login: {
-        endpoint: constants.PLAYO_COMMON,
-        route: '/login'
+        endpoint: constants.ORDERMANAGEMENT_COMMON,
+        route: '/api/login'
     }
 }
 

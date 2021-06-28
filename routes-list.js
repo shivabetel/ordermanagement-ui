@@ -17,6 +17,24 @@ const APP_ROUTES = [
         page: 'registration',
         pattern: '/registration',
         title: 'Sign UP'
+    },
+    {
+        name: 'products',
+        page: 'products',
+        pattern: '/products',
+        title: 'Products'
+    },
+    {
+        name: 'orders',
+        page: 'orders',
+        pattern: '/orders',
+        title: 'Orders'
+    },
+    {
+        name: 'address',
+        page: 'address',
+        pattern: '/address',
+        title: 'Shipping Address'
     }
 ]
 

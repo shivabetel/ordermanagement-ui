@@ -13,7 +13,7 @@ export const styles = {
         marginBottom: '1em',
         width: '40%',
         maxWidth: '40%',
-        position:'relativex'
+        position:'relative'
     },
     formCon:{
         display: 'flex',

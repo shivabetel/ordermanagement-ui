@@ -3,7 +3,7 @@ import { jsx } from '@emotion/core'
 import { styles } from './style'
 
 
-const Input = props => {
+const InputComp = props => {
 
     const { type = 'text', label, value, onChange, onBlur = () => {},  name = '', required = false, error } = props;
 
@@ -28,6 +28,15 @@ const Input = props => {
                     id={name}
                     onChange={onChange} 
                     onBlur={onBlur}/>
+                    {/* <Input type={type}
+                           autoComplete="false"
+                           required={required}
+                           onChange={onChange}
+                           onBlur={onBlur}
+                           id={name}
+                           name={name}
+                           value={value}
+                           variant=""/> */}
                
             </div>
 
@@ -35,4 +44,4 @@ const Input = props => {
     )
 }
 
-export default Input;
+export default InputComp;
