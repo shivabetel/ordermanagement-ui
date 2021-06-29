@@ -1,6 +1,6 @@
 export const styles = {
     header: {
-        height: '65px',
+        height: '88px',
         borderBottom: '1px solid #D7D7D7',
         display: 'flex',
         justifyContent: 'center',
@@ -40,9 +40,9 @@ export const styles = {
         width: '50%'
     },
     cartCon: {
-       position: 'relative',
-       width: '10%',
-       
+        position: 'relative',
+        width: '10%',
+
     },
     cartCountText: {
         position: 'absolute',

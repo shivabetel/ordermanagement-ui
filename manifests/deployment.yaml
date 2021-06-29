@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ordermanagement-ui
+  labels:
+    app: ordermanagementui
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ordermanagementui
+  template:
+    metadata:
+      labels:
+        app: ordermanagementui
+    spec:
+      containers:
+        - name: ordermanagement-ui-container
+          image: ordermanagement-ui:0.0.1
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80

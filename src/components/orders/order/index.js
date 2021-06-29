@@ -2,7 +2,7 @@
 import { jsx } from '@emotion/core'
 import { styles } from './style'
 
-const Order = ({ order = {}, orderAmount, orderDetailsHandler = () => {} }) => {
+const Order = ({ order = {}, orderAmount, orderDetailsHandler = () => { } }) => {
 
 
     const { orderId, orderDate } = order
@@ -37,7 +37,7 @@ const Order = ({ order = {}, orderAmount, orderDetailsHandler = () => {} }) => {
                 </div>
             </div>
             <div css={styles.right} onClick={() => orderDetailsHandler(order)}>
-                <img style={{ width: '30%' }} src="http://localhost/images/right-arrow.png" />
+                <img style={{ width: '30%' }} src="/images/right-arrow.png" />
             </div>
         </div>
 
