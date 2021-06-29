@@ -17,7 +17,7 @@ const Header = ({ isAuthenticated = false, cartCount }) => {
                     width: '13%',
                     position: 'relative',
                     top: '4px'
-                }} src="http://localhost/images/logo.png" />
+                }} src="/images/logo.png" />
             </div>
             <div css={styles.right}>
                 <div css={styles.link}>
@@ -50,7 +50,7 @@ const Header = ({ isAuthenticated = false, cartCount }) => {
                         <Link href="/cart">
                             <div>
                                 <a>
-                                    <img css={styles.cartImg} src="http://localhost/images/cart.png" />
+                                    <img css={styles.cartImg} src="/images/cart.png" />
                                 </a>
                                 {<span css={styles.cartCountText}>{cartCount ? cartCount : null}</span>}
                             </div>
